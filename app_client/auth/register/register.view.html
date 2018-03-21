@@ -1,0 +1,122 @@
+<!-- <img class="source-image" src="/img/wbg.jpg"/> -->
+<md-content ng-cloak>
+  <md-toolbar class="md-primary md-hue-2">
+    <div class="md-toolbar-tools">
+      <a href="#/">
+        <span style="font-family:wix;"><img style="margin-bottom:-5%" src="/img/gear.png" />
+          <div style="display:inline-block;vertical-align:middle"><span style="color:wihte; font-size:26px; line-height:0">PROCESS FACTORY</span><br><span style="letter-spacing: 0.07em;font-size:16px;color:#47adcb">A Next Generation ERP Solution</span>
+          </div>
+        </span>
+        
+      </a>
+      <span flex></span>
+      <small hide-xs>Alerady have an account?</small>
+      <a href="#/login"><md-button class="md-primary md-raised md-hue-3">Sign In</md-button></a>
+    </div>
+  </md-toolbar>
+  <div class="md-padding" layout="row" flex-xs="100" layout-align="center">
+
+   <div class="md-padding" flex ng-if="vm.showConfirmation">
+     <md-card class="md-padding">
+       <p>Hi, {{vm.register.first_name}}. You have been registered with us.</p>
+       <p>Your Customer ID is <b>{{vm.customer_id}}</b>. Please mention this ID in all subsequent communications with us.</p>
+       You will shortly recieve a confirmation mail on {{vm.register.email}}.<br>
+       The link will expire in 6 hours.
+
+
+       <p><br><br><i>Feel free to contact us on info@processfactory.in if you need any help.
+        You can also call us on +91 98 23 07 94 30.</i></p>
+        
+     </md-card>
+
+     <!-- Google Code for Website Conversion Conversion Page -->
+    <script type="text/javascript">
+      /* <![CDATA[ */
+      console.log('executing gScript')
+      var google_conversion_id = 945159590;
+      var google_conversion_language = "en";
+      var google_conversion_format = "3";
+      var google_conversion_color = "ffffff";
+      var google_conversion_label = "f1CbCNSgnXUQpvvXwgM";
+      var google_remarketing_only = false;
+      /* ]]> */
+      </script>
+      <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+      </script>
+      <noscript>
+      <div style="display:inline;">
+      <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/945159590/?label=f1CbCNSgnXUQpvvXwgM&amp;guid=ON&amp;script=0"/>
+      </div>
+      </noscript>
+
+   </div>
+   <div  flex="40" flex-xs="100" ng-if="!vm.showConfirmation">
+    <md-card class="md-padding">
+      <h5>Register with us</h5>
+      <form flex ng-submit="vm.onSubmit()">
+        <md-input-container flex layout="row" style="margin-bottom: 0" class="md-icon-float md-block">
+          <label>Email</label>
+          <md-icon class="material-icons">email</md-icon>
+          <input type="email" name="email" ng-model="vm.register.email" required/>
+        </md-input-container>
+
+        <div layout="row" layout-xs="column">
+          <md-input-container style="margin: 0" class="md-icon-float md-block flex-50">
+            <label>First Name</label>
+            <md-icon class="material-icons">person</md-icon>
+            <input type="text" name="first_name" ng-model="vm.register.first_name" required/>
+          </md-input-container>
+          <md-input-container style="margin: 0" class="md-icon-float md-block flex-50">
+            <label>Last Name</label>
+            <md-icon class="material-icons">person</md-icon>
+            <input type="text" name="last_name" ng-model="vm.register.last_name" required/>
+          </md-input-container>
+        </div>
+
+        <md-input-container flex layout="row" style="margin: 0" class="md-icon-float md-block">
+          <label>Mobile</label>
+          <md-icon class="material-icons">phone</md-icon>
+          <input type="number" name="mobile" ng-keydown="vm.forMobile($event)" ng-minlength="10" min="0" ng-maxlength="10" ng-model="vm.register.mobile" required/>
+        </md-input-container>
+
+        <md-input-container flex layout="row" style="margin: 0" class="md-icon-float md-block">
+          <label>Organization</label>
+          <md-icon class="material-icons">work</md-icon>
+          <input type="text" name="organization" ng-model="vm.register.organization" required/>
+        </md-input-container>
+        <div layout="row" layout-xs="column">
+          <md-input-container  class="md-icon-float md-block flex-45" flex-xs="100">
+            <label>Password</label>
+            <md-icon class="material-icons">enhanced_encryption</md-icon>
+            <input type="password" ng-paste="$event.preventDefault();"  ng-model="vm.register.password" name="pw" id="pw" required/>
+
+
+            <ul layout="row" flex id="strength" pw-strength="vm.register.password"></ul>
+          </md-input-container>
+          <md-input-container  class="md-icon-float md-block flex-45" flex-xs="100">
+            <label>Confirm Password</label>
+            <md-icon class="material-icons">security</md-icon>
+            <input type="password" ng-paste="$event.preventDefault();" minlength="8" ng-model="vm.register.confPassword" required />
+          </md-input-container>
+
+          <md-button class="md-icon-button test-tooltip" aria-label="Refresh">
+            <md-tooltip md-direction="right">
+                To conform with our Strong Password policy, you <br>
+              are required to use a sufficiently strong password.<br>
+              Password must be more than 8 characters and should <br>
+              contain one uppercase, one lowercase, one numeric <br>
+              and one special character.
+            </md-tooltip>
+            <md-icon style="line-height: 1.7; color: rgb(140, 158, 255)" class="material-icons">info</md-icon>
+        </md-button>  
+
+      </div>
+      <div class="form-hint">* By proceeding to register your organizaiton with <b>Process Factory</b>, you are agreeing to our <b>Terms of Service</b> and <b>&nbsp;&nbsp;&nbsp;Privacy Policy.</b></div>
+      <span style="color: red">{{vm.notification}}</span>
+      <div layout="row" layout-align="center"><input  class="md-button md-raised md-hue-3 md-primary"  value="Submit" type="submit"/></div>
+    </form>
+  </md-card>
+</div>
+</div>
+
+</md-content>

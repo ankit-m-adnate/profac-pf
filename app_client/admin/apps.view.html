@@ -1,0 +1,184 @@
+<md-toolbar>
+	<div class="md-toolbar-tools">
+      <a href="/"><span>AppsGate</span></a>
+
+      <!-- fill up the space between left and right area -->
+      <span flex></span>
+      <md-input-container style="height:30px;" ng-show="vm.showSearch">
+      
+      	<input placeholder="Search" ng-model="vm.queryText">
+      </md-input-container>
+        <i ng-show="!vm.showSearch" ng-click="vm.showSearch= !vm.showSearch" class="material-icons md-raised md-primary">search</i>
+        <i ng-show="vm.showSearch" ng-click="vm.showSearch= !vm.showSearch" class="material-icons md-raised md-primary">close</i>
+    </div>
+	
+</md-toolbar>
+
+<md-content layout="column" flex style="overflow:hidden;">
+  <md-card>
+    <md-toolbar class="md-table-toolbar md-primary">
+            <div class="md-toolbar-tools">
+            <h5>Applications Master</h5>
+    <div flex="" class="flex"></div>
+    <button class="md-icon-button md-button md-ink-ripple" type="button"  ng-click="vm.newAppPanel()" aria-label="filter_list">
+      <i class="material-icons">&#xE145;</i>
+      </button>
+      
+    <button class="md-icon-button md-button md-ink-ripple" type="button"  ng-show="vm.selected.length > 0" ng-click="vm.removeItem()" aria-label="local_dining">
+      <i class="material-icons" ng-click="vm.deleteTxn()">delete</i>
+    <div class="md-ripple-container"></div></button>
+  </div>
+          </md-toolbar>
+      <md-table-container style="margin-bottom:65px;">
+    <table md-table md-row-select multiple ng-model="vm.selected" md-progress="promise">
+      <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+        <tr md-row>
+          <th md-column ><span>Name</span></th>
+          <th md-column ><span>Description</span></th>
+          <th md-column ><span>Category</span></th>
+          <th md-column ><span>Url</span></th>
+          <th md-column ><span>Image</span></th>
+          <th md-column><span></span></th>
+        </tr>
+      </thead>
+      <tbody md-body style="overflow:auto">
+        <tr md-row md-select="vm.apps[$index]._id" ng-repeat="t in vm.apps track by $index">
+          <td md-cell>
+          {{t.name}}
+          </td>
+          <td md-cell>
+          {{t.desc}}
+          </td>
+          <td md-cell>
+          {{t.category}}
+          </td>
+          <td md-cell>
+          {{t.url}}
+          </td>
+          <td md-cell>
+          <img style="height:20px;width:20px" ng-src="{{vm.getImage(t)}}"/>
+          </td>
+          <td md-cell><i class="material-icons" ng-click="vm.editAppDialog(t)">edit</i></td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+  </md-card>
+</md-content>
+
+
+<script type="text/ng-template" id="panel.tmpl.html"><div role="dialog" aria-label="Eat me!" layout="column" layout-align="center center">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>New Application</h2>
+    </div>
+  </md-toolbar>
+  <md-content class="demo-dialog-content">
+  <div layout-gt-sm="row">
+  <md-input-container flex="50">
+    <label>Name</label>
+    <input ng-model="vm.newApp.name" required>
+  </md-input-container>
+  <md-input-container flex="50">
+    <label>Category</label>
+    <md-select ng-model="vm.newApp.category" required>
+      <md-option value="{{opt}}" ng-repeat="opt in vm.categoryMaster">{{ opt }}</md-option>
+    </md-select>
+  </md-input-container>
+  </div>
+  <div layout-gt-sm="row">
+  <md-input-container flex layout="row">
+    <label>Description</label>
+    <textarea ng-model="vm.newApp.desc" required></textarea>
+  </md-input-container>
+  </div>
+  <div>
+  <md-input-container flex layout="row">
+    <label>Url</label>
+    <textarea ng-model="vm.newApp.url" required></textarea>
+  </md-input-container>
+  </div>
+  <div>
+    <md-button type="file" name="icon" id="file" ng-model="vm.file.file" ngf-select="vm.upload()" ngf-max-size="25MB" required>Choose Icon</md-button>
+            <span>{{vm.file.file.webkitRelativePath || vm.file.file.name}}</span>
+            (<span ng-switch="file.size > 1024*1024">
+                <span ng-switch-when="true">{{vm.file.file.size / 1024 / 1024 | number:2}} MB</span>
+                <span ng-switch-default>{{vm.file.file.size / 1024 | number:2}} kB</span>
+            </span>)
+  </div>
+  <div layout="row" flex ng-show="vm.progressVisible">
+            <div flex class="progress-bar">
+                <div class="uploaded" ng-style="{'width': vm.progressPercentage+'%'}">{{vm.progressPercentage}}%</div>
+            </div>
+        </div>
+  <md-content>
+  <div layout="row" class="demo-dialog-button">
+  <md-button md-autofocus flex class="md-primary" ng-click="vm.addNewActivity($event)">
+      Add
+    </md-button>
+    <md-button flex class="md-primary" ng-click="vm.closeDialog()">
+      Close
+    </md-button>
+  </div>
+</div>
+</script>
+
+
+
+
+<script type="text/ng-template" id="editpanel.tmpl.html"><div role="dialog" aria-label="Eat me!" layout="column" layout-align="center center">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>New Application</h2>
+    </div>
+  </md-toolbar>
+  <md-content class="demo-dialog-content">
+  <div layout-gt-sm="row">
+  <md-input-container flex="50">
+    <label>Name</label>
+    <input ng-model="vm.editApp.name" required>
+  </md-input-container>
+  <md-input-container flex="50">
+    <label>Category</label>
+    <md-select ng-model="vm.editApp.category" required>
+       <md-option value="{{opt}}" ng-repeat="opt in vm.categoryMaster">{{ opt }}</md-option>
+    </md-select>
+  </md-input-container>
+  </div>
+  <div layout-gt-sm="row">
+  <md-input-container flex layout="row">
+    <label>Description</label>
+    <textarea ng-model="vm.editApp.desc" required></textarea>
+  </md-input-container>
+  </div>
+  <div>
+  <md-input-container flex layout="row">
+    <label>Url</label>
+    <textarea ng-model="vm.editApp.url" required></textarea>
+  </md-input-container>
+  </div>
+  <div>
+  <img style="height:20px;width:20px" ng-src="{{vm.getImage(vm.editApp)}}"/>
+    <md-button type="file" name="icon" id="file" ng-model="vm.editfile.file" ngf-select="vm.uploadEdit()" ngf-max-size="25MB" required>Change Icon</md-button>
+            <span>{{vm.editfile.file.webkitRelativePath || vm.editfile.file.name}}</span>
+            (<span ng-switch="file.size > 1024*1024">
+                <span ng-switch-when="true">{{vm.editfile.file.size / 1024 / 1024 | number:2}} MB</span>
+                <span ng-switch-default>{{vm.editfile.file.size / 1024 | number:2}} kB</span>
+            </span>)
+  </div>
+  <div layout="row" flex ng-show="vm.progressVisible">
+            <div flex class="progress-bar">
+                <div class="uploaded" ng-style="{'width': vm.progressPercentage+'%'}">{{vm.editProgressPercentage}}%</div>
+            </div>
+        </div>
+  <md-content>
+  <div layout="row" class="demo-dialog-button">
+  <md-button md-autofocus flex class="md-primary" ng-click="vm.confirmEdit($event)">
+      Save
+    </md-button>
+    <md-button flex class="md-primary" ng-click="vm.closeDialog()">
+      Close
+    </md-button>
+  </div>
+</div>
+</script>

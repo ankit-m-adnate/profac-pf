@@ -1,0 +1,17 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "public/*",
+    "app_client/*",
+	".log",
+	"views/*",
+	".md",
+	"gulpfile.js"
+  ],
+  "verbose": true,
+  "execMap": {
+    "js": "node --harmony"
+  }
+}

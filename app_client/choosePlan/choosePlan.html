@@ -1,0 +1,221 @@
+
+
+<md-toolbar style="font-family:wix;" class="md-medium-tall">
+    <h2 class="md-toolbar-tools">
+        <a href="#/">
+          <span ><img style="margin-bottom:-5%" src="/img/gear.png" />
+            <div style="display:inline-block;vertical-align:middle"><span style="color:wihte; font-size:26px; line-height:0; text-transform:uppercase">PROCESS {{::plans[0].app.displayName}}</span><br><span style="letter-spacing: 0.07em;font-size:16px;color:#47adcb">A Next Generation ERP Solution</span>
+            </div>
+          </span>
+          
+        </a>
+        <span flex></span>
+      
+
+    </h2>
+  </md-toolbar>
+  <md-content>
+      <md-card  class="md-padding" layout="column">
+          <md-subheader  class="md-primary">CURRENT PLAN DETAILS</md-subheader>
+          <div layout="row" layout-align="center center">
+            <h5 class="md-padding" style="font-size:16px;">{{message}}</h5>
+          </div>
+          <div class="md-padding" style="font-size:13px" layout="row" layout-align="start center">
+            <div class="flex-50"><b>Subscribed On : </b>{{nextSub.subOn}}</div>
+            <div class="flex-50"><b>Expiration : </b>{{nextSub.expireOn}}</div>
+            <div class="flex-20"><b>Plan Type : </b>{{currentPlan.identifier}}</div>
+          </div>
+          <md-divider></md-divider>
+          <div layout="row" layout-align="center center">
+            <h5 class="" style="font-size:12px;"><i>
+              Please contact 020 6666 6666 or email us at info@processfactory.in for any assistance.</i></h5>
+            
+          </div>
+        </md-card> 
+  <div  class="md-padding" layout="row" layout-xs="column" layout-sm="column" flex >
+  
+    <md-card ng-if="p.rank >= currentPlan.rank" layout="column" flex="33" flex-xs="100" flex-sm="100" ng-repeat="p in plans  | orderBy : 'cost'">
+        <div layout="row" class="md-whiteframe-6dp" layout-align="center start" style="background:grey"><img flex="none" ng-src="{{imagePath}}" style="max-width: 200px" class="md-card-image" alt="Washed Out"></div>
+        <div layout="column" layout-align="start center">
+          <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{p.identifier}}</span>
+            
+
+          </md-card-title-text>
+            
+          
+        </md-card-title>
+        <div layout="row" ng-if="p.cost != 0"><span style="color:grey" class="md-headline">&#8377; {{p.cost + ' / ' + p.months}} <small style="font-size:10px">months</small></span></div>
+        <div ng-if="p.cost == 0" style="font-size:27px;color:grey;"><i class="material-icons">tag_faces</i>{{' / ' + p.months}}<small style="font-size:10px">months</small></div>
+        <md-card-actions ng-if="p.rank != currentPlan.rank" layout="row" layout-align="center center">
+          <md-button class="md-primary md-raised" ng-click="checkout(p)">subscribe</md-button>
+        </md-card-actions>
+        <md-card-actions ng-if="p.rank == currentPlan.rank" layout="row" layout-align="center center">
+            <i  class="material-icons" style="font-size:45px;color:rgb(143, 236, 89)">done_all</i>
+            This is your current plan
+          </md-card-actions>
+        <div ng-if="p.cost!=0">
+          <a href="javascript:void(0)" ng-hide="showPromo" ng-click="showPromo = !showPromo">Have a promo code?</a> 
+ 
+        <div ng-if="showPromo" layout="row" >
+          <md-input-container style="margin:0"  md-no-float>
+        
+        <input  type="text" placeholder="Promo Code" ng-model="p.promo">
+      </md-input-container>
+
+      <md-button ng-click="applyPromo(p, p.promo)" layout="row" layout-align="center center"><i style="color:grey" class="material-icons">send</i></md-button>
+
+        </div>
+        <span id="promoMsg" layout="row" layout-align="center center">{{promoMessage}}&nbsp;<i class="material-icons">{{promoIcon}}</i></span>
+        </div>
+
+        <md-card-content layout="column" layout-fill flex>
+          <md-list layout="column">
+            <md-list-item ng-repeat="t in p.tags">
+              <i style="float:left;color:lightgrey;" class="material-icons">label</i>{{t}}
+            </md-list-item>
+          </md-list>
+        </md-card-content>
+      </md-card>  
+
+  </div>
+
+
+
+
+
+      <form style="display:none" action="https://secure.payu.in/_payment"  name="payuform"  method=POST >
+        <input type="hidden"  name="key" value="UFu3ed" />
+        <input type="hidden"  name="hash_string" value="" />
+        <input type="hidden"  name="hash" />
+        <!-- <input type="hidden" name = "service_provider" value=""/> -->
+        <input type="hidden" name = "service_provider" value="payu_paisa"/>
+        <input type="hidden" name="txnid"/>
+        <h3>Payment Request</h3>
+        <div layout="row" >
+          <md-input-container>
+            <label>Amount</label>
+            <input name = "amount"  ng-model="amount">
+          </md-input-container>
+          <md-input-container>
+            <label>First Name</label>
+            <input name = "firstname" class="capitalize"  ng-model="firstname">
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container >
+            <label>Email</label>
+            <input name = "email"  ng-model="email">
+          </md-input-container>
+          <md-input-container >
+            <label>Phone</label>
+            <input name = "phone"  ng-model="phone">
+          </md-input-container>
+        </div>
+        <div layout="row">
+          <md-input-container >
+            <label>Product Info</label>
+            <input name = "productinfo" id="productinfo" ng-model="productinfo">
+          </md-input-container>
+        </div>
+        <div layout="row" style="display:none">
+          <md-input-container class="md-padding">
+            <label>Success URL</label>
+            <input  name = "surl" ng-model="surl" size="64">
+          </md-input-container>
+        </div>
+        <div layout="row" style="display:none">
+          <md-input-container >
+            <label>Failure URL</label>
+            <input  name = "furl"  ng-model="furl" size="64">
+          </md-input-container>
+        </div>
+        <div layout="row" style="display:none">
+          <md-input-container >
+            <label>UDF1</label>
+            <input  name = "udf1"  ng-model="plan._id">
+          </md-input-container>
+        </div>
+        <div layout="row" style="display:none">
+          <md-input-container >
+            <label>UDF2</label>
+            <input  name = "udf2"  ng-model="org">
+          </md-input-container>
+        </div>
+        <div layout="row" style="display:none">
+          <md-input-container >
+            <label>USER</label>
+            <input  name = "udf3"  ng-model="user">
+          </md-input-container>
+        </div>
+        <div layout="row" style="display:none">
+          <md-input-container >
+            <label>PFSUCCESSURI</label>
+            <input  name = "udf4"  ng-model="pfSuccessRedirectUri">
+          </md-input-container>
+        </div>
+        <div layout="row" style="display:none">
+          <md-input-container >
+            <label>PFFAILUREURI</label>
+            <input  name = "udf5"  ng-model="pfFailureRedirectUri">
+          </md-input-container>
+        </div>
+      </div>
+      <!-- <tr>
+        <td><b>Optional Parameters</b></td>
+      </tr>
+      <tr>
+        <td>Last Name: </td>
+        <td><input name="lastname" id="lastname"  /></td>
+        <td>Cancel URI: </td>
+        <td><input name="curl" value="" /></td>
+      </tr>
+      <tr>
+        <td>Address1: </td>
+        <td><input name="address1" /></td>
+        <td>Address2: </td>
+        <td><input name="address2"  /></td>
+      </tr>
+      <tr>
+        <td>City: </td>
+        <td><input name="city"  /></td>
+        <td>State: </td>
+        <td><input name="state"  /></td>
+      </tr>
+      <tr>
+        <td>Country: </td>
+        <td><input name="country"  /></td>
+        <td>Zipcode: </td>
+        <td><input name="zipcode"  /></td>
+      </tr>
+      <tr>
+        <td>UDF1: </td>
+        <td><input name="udf1"  /></td>
+        <td>UDF2: </td>
+        <td><input name="udf2"  /></td>
+      </tr>
+      <tr>
+        <td>UDF3: </td>
+        <td><input name="udf3"   /></td>
+        <td>UDF4: </td>
+        <td><input name="udf4"  /></td>
+      </tr>
+      <tr>
+        <td>UDF5: </td>
+        <td><input name="udf5"  /></td>
+        <td>PG: </td>
+        <td><input name="pg"  /></td>
+      </tr> 
+    </tr> -->
+
+  </form>
+  
+</md-content>
+
+
+
+
+
+
+      

@@ -1,0 +1,46 @@
+
+<!-- <img class="source-image" src="/img/wbg.jpg"/> -->
+<md-content ng-cloak>
+  <md-toolbar class="md-primary md-hue-2">
+  <div class="md-toolbar-tools">
+    <a href="#/">
+      <span style="font-family:wix;"><img style="margin-bottom:-5%" src="/img/gear.png" />
+        <div style="display:inline-block;vertical-align:middle"><span style="color:wihte; font-size:26px; line-height:0">PROCESS FACTORY</span><br><span style="letter-spacing: 0.07em;font-size:16px;color:#47adcb">A Next Generation ERP Solution</span>
+        </div>
+      </span>
+      
+    </a>
+      <span flex></span>
+      <small hide-xs>Don't have an account?</small>
+      <a href="#/register"><md-button class="md-primary md-raised md-hue-3">Sign Up</md-button></a>
+  </div>
+</md-toolbar>
+<div class="md-padding" flex layout="row" layout-sm="column" layout-align="end start">
+<!--     <div class="md-padding" flex="75">
+    </div> -->
+  <div  flex="25" flex-xs="100">
+  <md-card class="md-padding">
+    <div layout>
+      <h5>Login</h5>
+      <span flex></span>
+      <a ng-href="#/forgot" target="_self">Forgot Password?</a>
+    </div>
+    <form flex ng-submit="vm.onSubmit()">
+      <md-input-container flex layout="row" class="md-icon-float md-block">
+        <label>Email</label>
+        <md-icon class="material-icons">email</md-icon>
+        <input type="email" name="email" ng-model="vm.credentials.email" />
+      </md-input-container>
+      <md-input-container flex layout="row" style="margin-bottom:0px" class="md-icon-float md-block">
+        <label>Password</label>
+        <md-icon class="material-icons">enhanced_encryption</md-icon>
+        <input type="password" ng-model="vm.credentials.password" />
+      </md-input-container>
+      <span style="color:red">{{vm.notification}}</span>
+      <div layout="row" layout-align="center"><input  class="md-button md-raised md-hue-3 md-primary"  value="Sign In" type="submit"/></div>
+    </form>
+  </md-card>
+  </div>
+</div>
+
+</md-content>

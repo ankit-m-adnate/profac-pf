@@ -1,0 +1,96 @@
+<md-sidenav flex class="md-sidenav-left fixed" md-component-id="left"
+	md-whiteframe="4"> <md-toolbar
+	class="">
+<h1 class="md-toolbar-tools">MSI</h1>
+</md-toolbar> <md-content layout-margin>
+<md-list>
+      <md-subheader class="md-no-sticky">Dashboard/Reports</md-subheader>
+      <md-list-item href="/">
+        <md-icon class="md-default-theme" class="material-icons">&#xE871;</md-icon>
+        <p>Dashboard</p>
+        <div class="md-secondary">2</div>
+      </md-list-item>
+      <md-list-item href="/reports">
+        <md-icon class="md-default-theme" class="material-icons">&#xE873;</md-icon>
+        <p>Reports</p>
+        <md-icon class="md-secondary">2</md-icon>
+      </md-list-item>
+      <md-divider></md-divider>
+      <md-subheader class="md-no-sticky">Admin Control</md-subheader>
+      <md-list-item href="/Projects">
+        <md-icon class="md-default-theme" class="material-icons">&#xE616;</md-icon>
+        <p>Projects</p>
+        <div class="md-secondary">2</div>
+      </md-list-item>
+<!--       <md-list-item href="/templates">
+        <md-icon class="md-default-theme" class="material-icons">&#xE065;</md-icon>
+        <p>Checklists</p>
+        <div class="md-secondary">20+</div>
+      </md-list-item> -->
+      <md-list-item href="/checklistConfig">
+        <md-icon class="md-default-theme" class="material-icons">&#xE251;</md-icon>
+        <p>Checklist Configuration</p>
+        <md-icon class="md-secondary">2</md-icon>
+      </md-list-item>
+ </md-list>
+<md-button ng-click="navvm.toggleLeft()" class="md-accent"> Close
+this Sidenav </md-button> </md-content> </md-sidenav>
+
+
+
+
+<md-toolbar ng-show="!showSearch" class=" md-whiteframe-3dp fixed">
+<div class="md-toolbar-tools">
+	<md-button class="md-icon-button" ng-click="navvm.toggleLeft()"
+		aria-label="Settings"> <i class="material-icons">menu</i>
+	</md-button>
+	<h2>
+		<span>Master Systems Integration</span>
+	</h2>
+	
+
+	<ol class="ab-nav breadcrumb">
+    <li ng-repeat="breadcrumb in vm.breadcrumbs.get() track by breadcrumb.path" ng-show="vm.breadcrumbs.get().length > 1" ng-class="{ active: $last }">
+      <a ng-if="!$last" ng-href="{{ breadcrumb.path }}" ng-bind="breadcrumb.label" class="margin-right-xs"></a>
+      <span ng-if="$last" ng-bind="breadcrumb.label"></span>
+    </li>
+  </ol>
+	<span flex></span>
+	<md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
+      <i class="material-icons">search</i>
+    </md-button>
+	<md-button class="md-icon-button" aria-label="Favorite"> 
+	<i class="material-icons">face</i> </md-button>
+	<md-button class="md-icon-button" aria-label="More"> <i
+		class="material-icons">more_vert</i> </md-button>
+</div>
+</md-toolbar>
+
+
+
+<md-toolbar flex ng-show="showSearch" class="md-whiteframe-3dp fixed">
+  <div class="md-toolbar-tools">
+    <md-button class="md-icon-button" ng-click="showSearch = !showSearch" aria-label="Back">
+      <i class="material-icons">arrow_back</i>
+    </md-button>
+    <h3 flex="10">
+        Back
+      </h3>
+    <md-input-container md-theme="input" flex>
+      <label>&nbsp;</label>
+      <input ng-model="search.who" style="margin-top:15px;color:white;border-color:white" placeholder="enter search">
+    </md-input-container>
+    <md-button class="md-icon-button" aria-label="Search" ng-click="showSearch = !showSearch">
+      <i class="material-icons">search</i>
+    </md-button>
+    <md-button class="md-icon-button" aria-label="Favorite"> 
+	<i class="material-icons">face</i> </md-button>
+    <md-button class="md-icon-button" aria-label="Open Settings" ng-click="showListBottomSheet($event)">
+      <i class="material-icons">more_vert</i> 
+    </md-button>
+  </div>
+</md-toolbar>
+
+
+	
+

@@ -1,0 +1,36 @@
+
+<!-- <img class="source-image" src="/img/wbg.jpg"/> -->
+<md-content ng-cloak>
+  <md-toolbar class="md-primary md-hue-2">
+  <div class="md-toolbar-tools">
+    <a href="#/">
+      <span style="font-family:wix;"><img style="margin-bottom:-5%" src="/img/gear.png" />
+        <div style="display:inline-block;vertical-align:middle"><span style="color:wihte; font-size:26px; line-height:0">PROCESS FACTORY</span><br><span style="letter-spacing: 0.07em;font-size:16px;color:#47adcb">A Next Generation ERP Solution</span>
+        </div>
+      </span>
+      
+    </a>
+      <span flex></span>
+      <small>Don't have an account?</small>
+      <a href="#/register"><md-button class="md-primary md-raised md-hue-3">Sign Up</md-button></a>
+  </div>
+</md-toolbar>
+<div class="md-padding" layout="row" layout-align="center">
+  <div flex="40">
+  <md-card class="md-padding">
+      <h5>Forgot Password?</h5>
+      <md-divider></md-divider>
+    <form flex ng-submit="vm.onSubmit()">
+      <md-input-container flex layout="row" class="md-icon-float md-block">
+        <label>Email</label>
+        <md-icon class="material-icons">email</md-icon>
+        <input type="email" name="email" ng-model="vm.forgot.email" />
+      </md-input-container>
+      <div layout="row" layout-align="center"><input  class="md-button md-raised md-hue-3 md-primary"  value="Reset Password" type="submit"/></div>
+      <div class="md-padding" style="color:lightgreen;">{{vm.showResponse}}</div>
+    </form>
+  </md-card> 
+  </div> 
+</div>
+
+</md-content>

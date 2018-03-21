@@ -1,0 +1,137 @@
+
+
+
+<div ng-cloak layout="column"  layout-fill>
+  <!-- <img class="source-image" src="/img/bg.jpg"/> -->
+
+  <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <a href="#/">
+          <span style="font-family:wix;"><img style="margin-bottom:-5%" src="/img/gear.png" />
+            <div style="display:inline-block;vertical-align:middle"><span style="color:wihte; font-size:26px; line-height:0">PROCESS FACTORY</span><br><span style="letter-spacing: 0.07em;font-size:16px;color:#47adcb">A Next Generation ERP Solution</span>
+            </div>
+          </span>
+          
+        </a>
+  
+        <!-- fill up the space between left and right area -->
+        <span flex></span>
+        <!-- <md-button class="md-accent md-raised" href="/master">Admin</md-button> -->
+        <notification></notification>
+        
+        <md-menu md-position-mode="target bottom">
+  
+         <md-button ng-click="vm.openMenu($mdOpenMenu , $event)" id="profileMenu" class="md-icon-button md-raised md-hue-3 md-primary" aria-label="Open profile menu">
+         <md-tooltip>My Account</md-tooltip>
+           <md-icon class="material-icons">face</md-icon>
+         </md-button>
+  
+         <md-menu-content width="5" style="padding:0;border-radius:2px">
+  
+           
+             <md-card style="margin:0" md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
+          <md-card-title>
+            <md-card-title-text>
+  
+              <span class="md-headline">{{::vm.currentUser.orgName}}</span>
+              <span class="md-headline" style="font-size:16px">{{::vm.currentUser.name}}</span>
+              <span>{{::vm.currentUser.email}}</span>
+            </md-card-title-text>
+            <md-card-title-media>
+              <div class="md-media-sm card-media"></div>
+            </md-card-title-media>
+          </md-card-title>
+          <md-divider></md-divider>
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button href="/#/account">
+              <md-icon class="material-icons">account_box</md-icon>
+              my account
+            </md-button>
+            <md-button ng-click="vm.logout()" aria-label="Logout">
+               <md-icon class="material-icons">power_settings_new</md-icon>
+               Logout
+             </md-button>
+          </md-card-actions>
+        </md-card>
+         </md-menu-content>
+       </md-menu>
+       <md-input-container style="height:30px;" ng-show="vm.showSearch">
+  
+         <input placeholder="Search" ng-model="vm.queryText">
+       </md-input-container>
+       <md-button class="md-icon-button md-raised md-hue-3 md-primary" ng-click="vm.showSearch= !vm.showSearch" ng-show="!vm.showSearch">
+       <md-tooltip>Search Apps</md-tooltip>
+        <md-icon class="material-icons">search</md-icon>
+      </md-button>
+      <i ng-show="vm.showSearch" ng-click="vm.showSearch= !vm.showSearch" class="material-icons md-raised md-primary">close</i>
+    </div>
+  
+  </md-toolbar>
+
+<div style="overflow:auto">
+    <div style="margin: 1% 5%" ng-show="vm.queryText == '' || !vm.queryText">
+        <md-toolbar class="toolbarGrad" style="min-height:35px!important;" md-scroll-shrink><div style="height:35px!important" class="md-toolbar-tools toolbarGrad"><h5>Most Used Apps</h5></div></md-toolbar>
+        <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+        md-row-height-gt-md="7:5" md-row-height="7:5"
+        md-gutter="12px" md-gutter-gt-sm="8px" >
+          <md-grid-tile layout="column" layout-align-gt-md="start start" ng-if="vm.isMostUsed(item)"
+          ng-dblclick="vm.click(item)" style="padding:5px; background:rgba(255, 255, 255, 0.82)"  class="md-whiteframe-5dp hover" ng-repeat="item in vm.data.txns | orderBy : vm.order | limitTo : vm.limit track by $index">
+              <md-tooltip>
+                  Double-click to open {{item.txn.displayName}}
+                </md-tooltip>
+              <!-- <md-grid-tile-header>
+                  <h3>This is a header</h3>
+                </md-grid-tile-header> -->
+              <img  ng-src="{{vm.getImage(item.txn.imagePath)}}" style="max-height:40%; max-width:40%;margin-bottom:15%" alt="image caption"/>
+              
+        
+        
+               
+               <!-- <p>{{item.txn.desc}}</p> -->
+               <md-grid-tile-footer class="hoverboard" layout="row" style="background:rgba(39, 39, 39, 0.82)">
+                  
+                  <h3 style="display:inline-block;width:100%" layout="row">{{item.txn.displayName}}
+                  <span flex="100"></span>
+                  <md-chip ng-if="item.plan" style="background:grey;font-size:10px;color:white;">&nbsp;{{item.plan}}&nbsp;</md-chip>
+                  </h3>  
+                  <h4 class="hoverboard_p md-padding">{{item.txn.desc}}</h4>
+               </md-grid-tile-footer>
+        </md-grid-tile>
+        </md-grid-list>
+    </div>
+  
+    <div style="margin: 1% 5%">
+        <md-toolbar class="toolbarGrad" style="min-height:35px!important"  md-scroll-shrink><div style="height:35px!important" class="md-toolbar-tools toolbarGrad"><h5>All Apps</h5></div></md-toolbar>
+        <md-grid-list md-cols-xs="1" md-cols-sm="2" md-cols-md="4" md-cols-gt-md="6"
+        md-row-height-gt-md="7:5" md-row-height="7:5"
+        md-gutter="12px" md-gutter-gt-sm="8px" >
+          <md-grid-tile ng-dblclick="vm.click(item)" style="padding:5px; background:rgba(255, 255, 255, 0.82)"  class="md-whiteframe-5dp hover" ng-repeat="item in vm.data.txns | orderBy : vm.order | filter : vm.queryText track by $index">
+              <md-tooltip>
+                  Double-click to open {{item.txn.displayName}}
+                </md-tooltip>
+              <!-- <md-grid-tile-header>
+                  <h3>This is a header</h3>
+                </md-grid-tile-header> -->
+                
+              <img  ng-src="{{vm.getImage(item.txn.imagePath)}}" style="max-height:40%; max-width:40%;margin-bottom:15%" alt="image caption"/>
+              
+        
+        
+               
+               <!-- <p>{{item.txn.desc}}</p> -->
+               <md-grid-tile-footer class="hoverboard"  layout="row" style="background:rgba(39, 39, 39, 0.82)">
+                  
+                  <h3 style="display:inline-block;width:100%" layout="row">{{item.txn.displayName}}
+                  <span flex="100"></span>
+                  <md-chip ng-if="item.plan" style="background:grey;font-size:10px;color:white;">&nbsp;{{item.plan}}&nbsp;</md-chip>
+                  </h3>  
+                  <span class="hoverboard_p md-padding">{{item.txn.desc}}</span>
+               </md-grid-tile-footer>
+        </md-grid-tile>
+        </md-grid-list>
+    </div>
+  
+
+</div>
+
+</div>

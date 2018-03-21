@@ -1,0 +1,167 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+var session = require("express-session")
+var MongoStore = require('connect-mongo')(session)
+var app = require('../app').app
+var debug = require('debug')
+var http = require('http')
+var socketExpressSession = require('../app').session
+var mongoose = require('mongoose')
+var passport = require('passport')
+var ctrlNotifs = require('../app_api/controllers/notifications')
+require('../app_api/config/passport')
+var sessionMiddleware = session({
+    key : '_pf_.sid',
+  secret: 'keyboard cat',
+  store: new MongoStore({
+  mongooseConnection: mongoose.connection
+  }),
+  resave : false,
+  saveUninitialized : false
+});
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || '1337')
+app.set('port', port)
+
+/**
+ * Create HTTP server.
+ */
+var server = http.createServer(app)
+
+/**
+ * Attach Socket.IO
+ */
+ var io = require('socket.io')(server)
+ module.exports.notif_io = io.of('/notif')
+//var io = socketio.listen(server);
+app.set('socketio', io)
+app.set('server', server)
+
+
+
+
+// hook up the session for socket.io connections
+io.use(function(socket, next) {
+    sessionMiddleware(socket.request, socket.request.res, next)
+});
+
+// oio.use(function(socket, next) {
+//     sessionMiddleware(socket.request, socket.request.res, next)
+// });
+
+// app.use(sessionMiddleware);
+// app.use(passport.initialize());
+// app.use(passport.session());
+// when a socket.io connect connects, get the session and store the id in it
+io.on('connection', function(socket) {
+    // socket.handshake.headers
+    //console.log(`socket.io connected: ${socket.id}`)
+    // save socket.io socket in the session
+    //console.log("session at socket.io connection:\n", socket.request.session)
+    socket.request.session.socketio = socket.id
+    socket.request.session.save()
+
+    
+    socket.emit('this', {'is' : 'the shit'})
+});
+
+module.exports.notif_io.on('connection', function(socket) {
+    // socket.handshake.headers
+    //console.log(`socket.oio connected: ${socket.id}`)
+    // // save socket.io socket in the session
+    // console.log("session at socket.oio connection:\n", socket.request.session)
+    // socket.request.session.socketio = socket.id
+    // socket.request.session.save()
+    //socket.emit('that', {'is' : 'the shit'})
+    //module.exports.notif_io.emit('that', {'is' : 'the shit'})
+    socket.on('updateNotif', function(data){
+      //console.log('got updateNotif data', data);
+      ctrlNotifs.markAsSeen(data)
+    })
+
+    socket.on('updateAction', function(data){
+      //console.log('got updateAction data', data);
+      ctrlNotifs.markAction(data)
+    })
+});
+
+
+
+
+io.on('updateNotif', function(data) {
+  //console.log('got updateNotif data on parent io');
+})
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+  console.log('Listening on ' + bind);
+}

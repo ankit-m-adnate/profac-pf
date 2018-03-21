@@ -1,0 +1,19 @@
+<md-menu md-position-mode="target bottom">
+  <md-button id="notifMenu" aria-label="Open phone interactions menu" class="md-icon-button" ng-click="notifvm.openMenu($mdOpenMenu, $event)">
+   <i class="material-icons">notifications_active</i>
+   <span id="notifBadge" class="badge"></span>
+  </md-button>
+  <md-menu-content width="6">
+    <md-menu-item ng-if="notifvm.notifs.length != 0" style="min-height:60px;padding:5px" ng-disabled="n.actionable ? 'true' : 'false'"  ng-click="n.actionable ? notifvm.goToNotif(n) : $event.preventDefault()" ng-repeat="n in notifvm.notifs" ng-class="{'hover' : n.actionable === true, 'action' : n.action === false}">
+    <div layout="row" flex="30"><img src="{{n.item.from.profile_pic.thumbnail}}" alt="image caption"></div>
+          <div style="padding-left:0px">
+            <div><p ng-bind-html="n.item.sentence"> by {{n.item.from.name}}</p></div>
+            <!-- <div><span style="font-size:10px;color:darkgrey">{{::n.timestamp | date:'medium'}}</span></div> -->
+            <div><span style="font-size:10px;color:darkgrey" ng-bind="notifvm.getTimeDiff(n.timestamp)">{{}}</span></div>
+          </div>
+    </md-menu-item>
+    <md-menu-item  ng-if="notifvm.notifs.length == 0" style="min-height:60px;padding:5px" ng-disabled="'true'">
+            <div layout="row" layout-align="center center"><h5>You have no notifications yet</h5></div>
+    </md-menu-item>
+  </md-menu-content>
+</md-menu>

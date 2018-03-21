@@ -1,0 +1,33 @@
+{
+    "hostUrl" : "http://localhost:1337",
+    "hostDomain" : "localhost",
+    "hostPort" : "1337",
+    "dbDomain" : "localhost",
+    "dbPort" : "27056",
+    "dbAuthSource" : "admin",
+    "dbUserName" : "",
+    "dbPass" : "",
+    "dbPassUrlEncoded" : "",
+    "pFacUrl" : "https://www.procfactory.com",
+    "pFacDomain" : "www.procfactory.com",
+    "pFacPort" : "443",
+    "whiteList" : [
+        "http://localhost:1337", 
+         "http://192.168.100.40:1339",
+        "http://localhost:1339",
+        "http://localhost:1401", 
+        "http://localhost:8080", 
+        "http://192.168.100.40:1337",
+        "http://localhost:1405", 
+        "http://192.168.100.23",
+        "http://localhost:1407",
+        "http://192.168.100.3:4200",
+        "http://localhost:4200",
+        "http://localhost:5000",
+        "http://localhost:1339",
+        "http://localhost:1411"
+        ],
+        "cookieDomain" : "localhost",
+        "sessionKey" : "",
+        "sessionSecret" : ""
+}
